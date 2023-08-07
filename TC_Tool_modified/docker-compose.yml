@@ -1,0 +1,42 @@
+version: '2'
+
+services:
+  elasticsearch:
+    container_name: elasticsearch
+    user: "1000"
+    build:
+      context: elasticsearch/
+    volumes:
+      - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      # - ./elasticsearch/data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      ES_JAVA_OPTS: "-Xms1g -Xmx1g"
+      ELASTIC_PASSWORD: changeme
+    networks:
+      - tc_net
+
+  logstash:
+    container_name: logstash
+    build:
+      context: logstash/
+    volumes:
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+      - ./logs/:/usr/share/logs:rw
+    ports:
+      - "5000:5000"
+      - "9600:9600"
+      - "4712:4712"
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - tc_net
+    depends_on:
+      - elasticsearch
+
+networks:
+  tc_net:
+    driver: bridge
