@@ -35,7 +35,7 @@ logstash负责接收Java包发送来的日志进行处理和输出到本地文�
 
  - logstash/pipline/logstash.conf中的监听端口。如果有修改发送地址，此处也应该修改为对应的端口
 
- - ![image-20230807113035922](https://raw.githubusercontent.com/LDragon-yu/blog-img/main/202308071130951.png)
+![image-20230807113035922](https://raw.githubusercontent.com/LDragon-yu/blog-img/main/202308071130951.png)
  - logstash/pipline/logstash.conf中的过滤器。如果有额外需求，可以通过修改过滤器对字段进行调整
 
 ```cpp
